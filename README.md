@@ -14,8 +14,25 @@ $ npm install --save-dev js-to-file
 
 ## Usage
 
-```
+```sh
 $ js2file templates/ --outDir dist --ext html
+```
+
+## Options
+
+```
+$ js2file --help
+
+Usage
+  $ js2file [folder]
+
+Options
+  --outDir where to output files to, defaults to [folder]
+  --ext    resulting extension, required
+
+
+Examples
+  $ js2file templates/ --outDir dist --ext html
 ```
 
 ## Example

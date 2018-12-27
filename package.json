@@ -10,11 +10,14 @@
   "files": [
     "dist"
   ],
+  "bin": {
+    "js2file": "dist/cli.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc -p tsconfig-build.json",
+    "build": "tsc -p tsconfig-build.json && add-shebang",
     "prepare": "npm run build",
     "release": "standard-version",
     "test": "jest"
@@ -31,6 +34,7 @@
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
+    "glob": "^7.1.3",
     "meow": "^5.0.0"
   },
   "devDependencies": {
@@ -38,6 +42,7 @@
     "@commitlint/config-conventional": "^7.1.2",
     "@types/execa": "^0.9.0",
     "@types/fs-extra": "^5.0.4",
+    "@types/glob": "^7.1.1",
     "@types/jest": "^23.3.9",
     "@types/meow": "^5.0.0",
     "add-shebang": "^0.1.0",
@@ -48,6 +53,7 @@
     "pretty-quick": "^1.8.0",
     "standard-version": "^4.4.0",
     "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   }
 }
