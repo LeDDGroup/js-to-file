@@ -1,17 +1,19 @@
-import { basename, resolve, relative, dirname } from "path";
+import { basename, resolve, relative, dirname, extname } from "path";
 import { promisify } from "util";
 import { writeFile, ensureDir } from "fs-extra";
 import globCb from "glob";
+import { getResultFile } from "./utils";
 
 const glob = promisify(globCb);
 
 export interface Options {
   outDir?: string;
+  require?: string;
   ext: string;
 }
 
 export async function runAndSave(file: string, outDir: string, ext: string) {
-  const outFile = resolve(outDir, basename(file).replace(/\.js$/, `.${ext}`));
+  const outFile = getResultFile(file, outDir, ext);
   const content = require(file);
   const func = typeof content === "function" ? content : content.default;
   // TODO check func is a function
@@ -23,7 +25,10 @@ export async function runAndSave(file: string, outDir: string, ext: string) {
 export async function jsToFile(base: string, options: Options) {
   const { ext } = options;
   const outDir = options.outDir || base;
-  const files = await glob(resolve(base, "**/*.js"));
+  if (options.require) {
+    require(options.require);
+  }
+  const files = await glob(resolve(base, "**/*"));
   await ensureDir(outDir);
   for (const file of files) {
     const rel = relative(base, dirname(file));
