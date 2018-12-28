@@ -12,8 +12,8 @@ export interface Options {
 
 export async function runAndSave(file: string, outDir: string, ext: string) {
   const outFile = resolve(outDir, basename(file).replace(/\.js$/, `.${ext}`));
-  // TODO check for module.exports = () => string construction
-  const { default: func } = require(file);
+  const content = require(file);
+  const func = typeof content === "function" ? content : content.default;
   // TODO check func is a function
   const result = func();
   // TODO check result is a string

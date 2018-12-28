@@ -2,6 +2,11 @@ import execa from "execa";
 import { resolve } from "path";
 import { remove, readdir, readFile } from "fs-extra";
 
+async function checkFile(file: string, expected: string) {
+  const content = (await readFile(file)).toString();
+  expect(content).toBe(expected);
+}
+
 it("should work", async () => {
   const base = "src/__fixtures";
   const templates = resolve(base, "templates");
@@ -16,10 +21,12 @@ it("should work", async () => {
     templates
   ]);
   const files = await readdir(outDir);
-  expect(files).toHaveLength(1);
-  expect(files[0]).toBe("home.html");
-  const content = (await readFile(resolve(outDir, files[0]))).toString();
-  expect(content).toBe(`\
-<h1>Hello World</h1>`);
+  expect(files).toHaveLength(2);
+  await checkFile(
+    resolve(outDir, "home.html"),
+    `\
+<h1>Hello World</h1>`
+  );
+  await checkFile(resolve(outDir, "export-equal.html"), "hello");
   await remove(outDir);
 });
