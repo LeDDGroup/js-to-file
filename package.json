@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Evaluate js and output result to file",
   "keywords": [
+    "compile",
+    "file",
+    "output",
+    "run",
     "typescript"
   ],
   "license": "MIT",
